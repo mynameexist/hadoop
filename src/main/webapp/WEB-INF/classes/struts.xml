@@ -16,5 +16,10 @@
                 <param name="root">test</param>
             </result>
         </action>
+        <action name="test" class="action.xunlianAction" method="test">
+            <result name="success" type="json">
+                <param name="root">data</param>
+            </result>
+        </action>
     </package>
 </struts>

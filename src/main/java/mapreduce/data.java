@@ -3,7 +3,7 @@ package mapreduce;
 public class data {
     private String id;
     private String type;
-    data(String id,String type){
+    public data(String id, String type){
         this.id=id;
         this.type=type;
     }

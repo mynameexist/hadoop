@@ -6,6 +6,11 @@ import org.apache.hadoop.fs.FSDataOutputStream;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IOUtils;
+import org.codehaus.jettison.json.JSONArray;
+import org.codehaus.jettison.json.JSONObject;
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 import java.io.*;
 import java.net.URI;
@@ -86,7 +91,22 @@ public class HdfsTest {
         }
         System.out.println("1");
     }
-    public static void main(String args[]) throws IOException {
-        down();
+    public static  void JsoupPost() throws Exception {
+        Connection connect = Jsoup.connect("https://jsonin.com/fenci.php").ignoreContentType(true);
+        // 带参数开始
+        connect.data("msg", "酒店设施比较不错就是携程价格酒店前台 一样没有竞争力");
+        // 带参数结束
+        //Document document = connect.post();
+        String ans=connect.execute().body().toString();
+        JSONArray array = new JSONArray(ans);
+        JSONObject jsonOb = null;
+
+        for (int i = 0; i < array.length(); i++) {
+            System.out.println(array.get(i).toString());
+        }
+        //System.out.println(connect.execute().body().toString());
+    }
+    public static void main(String args[]) throws Exception {
+        JsoupPost();
     }
 }

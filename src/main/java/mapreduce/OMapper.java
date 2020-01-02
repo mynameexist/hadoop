@@ -55,7 +55,6 @@ public class OMapper extends Mapper<LongWritable, Text, IntWritable, Text> {
         else {
             context.write(new IntWritable(now),new Text("差评"));
         }
-
     }
 
 

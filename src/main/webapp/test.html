@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HDFS</title>
+    <script src="js/jquery-3.3.1.min%20(1).js"></script>
+    <script type="text/javascript" src="js/layui.js"></script>
+    <link rel="stylesheet" href="js/layui.css" type="text/css"/>
+    <meta http-equiv="Access-Control-Allow-Origin" content="*" />
+
+</head>
+<body>
+<script>
+    $.ajax({
+        type: "get",
+        url: "你的请求地址",
+        dataType: 'jsonp', //【jsonp进行跨域请求 只支持get】
+        data:{ //【这里填写是传给服务端的数据 可传可不传 数据必须是json格式】
+            "a":"b",
+            "c":"d"
+        },
+        success: function(data) { //【成功回调】
+            console.log(data);
+        },
+        error: function(xhr, type) { //【失败回调】
+        }
+    });
+
+</script>
+</body>
+</html>
