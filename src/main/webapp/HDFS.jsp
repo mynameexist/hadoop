@@ -15,8 +15,7 @@
             <legend >HDFS</legend>
         </fieldset>
         <div class="layui-upload" style="margin-left: 20px">
-            <button type="button" class="layui-btn layui-btn-normal" id="chooseFile">选择文件</button>
-            <button type="button" class="layui-btn" id="uploadFile" >开始上传</button>
+            <button type="button" class="layui-btn" id="upload"><i class="layui-icon"></i>上传文件</button>
         </div>
         <fieldset class="layui-elem-field layui-field-title site-demo-button" style="margin-top: 30px;">
             <legend >预测结果</legend>
@@ -41,39 +40,36 @@
         var form = layui.form;
         form.render();
     });
-    var upload = layui.upload,
-        element = layui.element;
-    element.init();
-    element.render();
+    layui.use('upload', function(){
+        var $ = layui.jquery
+            ,upload = layui.upload;
 
-    file = upload.render({
-        elem: '#chooseFile'
-        ,url: ""
-        ,accept: 'file' //允许上传的文件类型
-        ,auto: false
-        ,async:true
-        //,multiple: true
-        ,bindAction: '#uploadFile'
-        ,done: function(res){
-            if(res.status =="fail"){
-                layui.use('layer', function(){
-                    var layer = layui.layer;
-                    layer.alert("<h2 style='color:black'>" + res.data.errMsg + "</h2>",{title: "Tips"});
-                });
-            }else if(res.status =="success"){
-                layui.use('layer', function () {
-                    var layer = layui.layer;
-                    layer.alert("<h2 style='color:black'>" + '上传成功！' + "</h2>", {title: "Tips"});
-                    setTimeout(function () {
-                        //刷新
-                        location.reload();
-                    }, 1000);
-                });
+        upload.render({
+            elem: '#upload'
+            ,url: ''
+            ,accept: 'file'
+            ,async:true
+            ,done: function(res){
+                console.log(res)
+                if(res.status ==="fail"){
+                    layui.use('layer', function(){
+                        var layer = layui.layer;
+                        layer.alert("<h2 style='color:black'>" + res.data.errMsg + "</h2>",{title: "Tips"});
+                    });
+                }else if(res.status ==="success"){
+                    layui.use('layer', function () {
+                        var layer = layui.layer;
+                        layer.alert("<h2 style='color:black'>" + '上传成功！' + "</h2>", {title: "Tips"});
+                        setTimeout(function () {
+                            //刷新
+                            location.reload();
+                        }, 1000);
+                    });
+                }
+                console.log(res)  //返回对象数据
             }
-            console.log(res)  //返回对象数据
-        }
+        })
     })
-
 
     $("#copy").on("tap",function(){
         $("#res").select();
