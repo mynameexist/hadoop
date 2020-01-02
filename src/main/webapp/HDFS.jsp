@@ -1,12 +1,16 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!DOCTYPE html>
+<html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>HDFS</title>
-    <script src="js/jquery-3.3.1.min%20(1).js"></script>
-    <script type="text/javascript" src="js/layui.js"></script>
-    <link rel="stylesheet" href="js/layui.css" type="text/css"/>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <script src="js/jquery.js"></script>
+    <script type="text/javascript" src="layui/layui.js"></script>
+    <link rel="stylesheet" href="layui/css/layui.css" type="text/css"/>
+
 </head>
 <body>
 <div class="layui-col-md12" >
@@ -15,7 +19,7 @@
             <legend >HDFS</legend>
         </fieldset>
         <div class="layui-upload" style="margin-left: 20px">
-            <button type="button" class="layui-btn" id="upload"><i class="layui-icon"></i>上传文件</button>
+            <button type="button" class="layui-btn" id="upload">上传文件</button>
         </div>
         <fieldset class="layui-elem-field layui-field-title site-demo-button" style="margin-top: 30px;">
             <legend >预测结果</legend>
@@ -31,24 +35,17 @@
         </div>
     </div>
 </div>
-<script>
-    $(document).ready(function () {
-        var ele = layui.element;
-        ele.render();
-    });
-    layui.use('form', function(){
-        var form = layui.form;
-        form.render();
-    });
+<script type="text/javascript">
     layui.use('upload', function(){
         var $ = layui.jquery
             ,upload = layui.upload;
 
         upload.render({
             elem: '#upload'
-            ,url: ''
+            ,url: '/upload'
             ,accept: 'file'
             ,async:true
+            ,method:"post"
             ,done: function(res){
                 console.log(res)
                 if(res.status ==="fail"){
@@ -71,7 +68,7 @@
         })
     })
 
-    $("#copy").on("tap",function(){
+/*    $("#copy").on("tap",function(){
         $("#res").select();
         try{
             if(document.execCommand("Copy",false,null)){
@@ -85,7 +82,7 @@
             //如果报错
             alert("复制错误！")
         }
-    })
+    })*/
 
 </script>
 </body>
