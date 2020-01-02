@@ -16,8 +16,19 @@ import java.io.*;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class OSubmit {
+    private List<data> test=null;
+
+    public List<data> getTest() {
+        return test;
+    }
+
+    public void setTest(List<data> test) {
+        this.test = test;
+    }
+
     public static HashMap<String,Integer> map=new HashMap<>();
     public static Integer cnt=0;
     public  static  double ans1=1,ans2=1;
@@ -26,7 +37,19 @@ public class OSubmit {
             URISyntaxException, InterruptedException, ClassNotFoundException {
         //init();
         //jisuan();
-        readfile("/input_2017081098/test-1000.txt");
+        new OSubmit().xunlian();
+        //readfile("/input_2017081098/test-1000.txt");
+    }
+    public String xunlian() throws InterruptedException, IOException, ClassNotFoundException {
+        //jisuan();
+        List<String> list=OSubmit.readfile("/input_2017081099/testoutput/part-r-00000");
+        test=new ArrayList<>();
+        for(String i : list){
+            String arr[]=i.split("\t");
+            if(arr.length!=2) continue;
+            test.add(new data(arr[0],arr[1]));
+        }
+        return "success";
     }
     public static  void jisuan() throws IOException, ClassNotFoundException, InterruptedException {
         ArrayList<String> list=readfile("/input_2017081099/2017081099_模型.txt");
@@ -100,7 +123,7 @@ public class OSubmit {
         //将当前的job对象提交
         job.waitForCompletion(true);
     }
-    private static void solve() throws InterruptedException, IOException, ClassNotFoundException {
+    public static void solve() throws InterruptedException, IOException, ClassNotFoundException {
         Job job = Job.getInstance(new Configuration());
         job.setJarByClass(OSubmit.class);
         job.setMapperClass(OMapper.class);
@@ -184,11 +207,11 @@ public class OSubmit {
         Path remotePath = new Path(remoteFilePath);
         FSDataInputStream in = fs.open(remotePath);
 
-        BufferedReader d = new BufferedReader(new InputStreamReader(in));
+        BufferedReader d = new BufferedReader(new InputStreamReader(in,"utf-8"));
         String line = null;
         while ((line = d.readLine()) != null) {
             strArray.add(line);
-            System.out.println(line);
+            //System.out.println(line);
         }
         d.close();
         in.close();

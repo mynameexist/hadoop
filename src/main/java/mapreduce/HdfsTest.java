@@ -39,7 +39,7 @@ public class HdfsTest {
 
     public static void down() throws IOException {
 
-        String dest = "hdfs://119.3.167.84:9000//input_2017081098/test-1000.txt";
+        String dest = "hdfs://119.3.167.84:9000/input_2017081099/testoutput/part-r-00000";
         String local = "C:\\Users\\ASUS\\Desktop\\test.txt";
         Configuration conf = new Configuration();
         FileSystem fs = FileSystem.get(URI.create(dest),conf);
