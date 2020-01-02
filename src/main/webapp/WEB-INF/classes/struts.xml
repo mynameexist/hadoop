@@ -11,5 +11,8 @@
         <action name="upload" class="action.UpLoadAction" method="upload">
             <result name="success">success.jsp</result>
         </action>
+        <action name="xunlian" class="action.xunlianAction" method="xunlian">
+            <result name="success">success.jsp</result>
+        </action>
     </package>
 </struts>
