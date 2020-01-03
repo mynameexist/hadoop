@@ -10,7 +10,8 @@
     <script src="js/jquery.js"></script>
     <script type="text/javascript" src="layui/layui.js"></script>
     <link rel="stylesheet" href="layui/css/layui.css" type="text/css"/>
-
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script src="http://code.highcharts.com/highcharts-3d.js"></script>
 </head>
 <body>
 <div class="layui-col-md12" >
@@ -20,6 +21,8 @@
         </fieldset>
         <div class="layui-upload" style="margin-left: 20px">
             <button type="button" class="layui-btn" id="upload">上传文件</button>
+            <span id="wait"></span>
+            <button type="button" class="layui-btn layui-btn-normal" onclick="predictAll()">开始预测</button>
         </div>
         <form class="layui-form" action="" style="margin-top: 30px;" name="form" >
             <div class="layui-form-item" >
@@ -32,21 +35,103 @@
             </div>
         </form>
         <fieldset class="layui-elem-field layui-field-title site-demo-button" style="margin-top: 30px;">
-            <legend >预测结果</legend>
+            <legend ><b>预测结果</b></legend>
         </fieldset>
-        <div class="layui-form-item layui-form-text" style="width: 800px;">
-            <label class="layui-form-label"></label>
-            <div class="layui-input-block">
-                <p id="crate">好评正确率：</p><br>
-                <p id="wrate">差评正确率：</p><br>
-                <textarea placeholder="请输入内容" class="layui-textarea"  id="res" readonly></textarea>
-                <a class="layui-btn layui-btn-normal" id="copy" style="float: right;margin-top: 5px;">复制</a>
+        <div class="layui-container">
+            <div class="layui-row">
+                <div class="layui-col-xs6">
+                    <div class="grid-demo grid-demo-bg1">
+                        <div class="layui-input-block" style="margin-left: 20px;">
+                            <p id="prate"></p><br>
+                            <textarea  class="layui-textarea"  id="res" readonly style="width: 550px;height: 300px"></textarea>
+                            <a class="layui-btn layui-btn-normal" id="copy" style="float: right;margin: 5px auto;">复制</a>
+                            <textarea  class="layui-textarea"  id="err" readonly style="width: 550px;height: 300px;margin-top: 10px;"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6">
+                    <div class="grid-demo">
+                        <div id="container" style="width: 550px; height: 400px; margin: 0 auto"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
+<script language="JavaScript">
+    function predictAll(){
+        $("#res").html("正在预测，等待时间可能较长，请稍后！")
+        layui.use('layer', function () {
+            var layer = layui.layer;
+            layer.alert("<h2 style='color:black'>" + '正在预测，等待时间可能较长，请稍后！' + "</h2>", {title: "Tips"});
+        });
+        $.post("xunlian.action",function(res){
+            console.log(res)
+            var pstr = "";
+            for(let i=0; i<res.list.length-1; i++){
+                pstr += res.list[i].id +"   "+res.list[i].type+"\n";
+            }
+            $("#res").html(pstr)
+            $("#prate").html("预测正确率："+res.list[res.list.length-1].type*100+"%")
+            let error = "预测错误列表：\n"
+            for(let i=0; i<res.errorList.length; i++){
+                error += res.errorList[i]+"\n";
+            }
+            $("#err").html(error)
+            $(document).ready(function() {
+                var chart = {
+                    type: 'pie',
+                    options3d: {
+                        enabled: true,
+                        alpha: 45,
+                        beta: 0
+                    }
+                };
+                var title = {
+                    text: '预测占比图'
+                };
+                var tooltip = {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                };
+                var plotOptions = {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        depth: 35,
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.name}'
+                        }
+                    }
+                };
+                var series= [{
+                    type: 'pie',
+                    name: 'rate',
+                    data: [
+                        ['差评数', res.cnum],
+                        {
+                            name: '好评数',
+                            y: res.hnum,
+                            sliced: true,
+                            selected: true
+                        },
+                    ]
+                }];
+
+                var json = {};
+                json.chart = chart;
+                json.title = title;
+                json.tooltip = tooltip;
+                json.plotOptions = plotOptions;
+                json.series = series;
+                $('#container').highcharts(json);
+            });
+        })
+    }
+
+</script>
+
 <script type="text/javascript">
-    $("#res").html(" ")
     layui.use('upload', function(){
         var $ = layui.jquery
         ,upload = layui.upload;
@@ -57,24 +142,27 @@
             ,accept: 'file'
             ,async:true
             ,method:"post"
+            ,choose: function(obj){
+                $("#wait").html("正在上传，请稍候！")
+                layui.use('layer', function(){
+                    var layer = layui.layer;
+                    layer.alert("<h2 style='color:black'>" + '正在上传！' + "</h2>", {title: "Tips"});
+                });
+            }
             ,done: function(res){
                 console.log(res)
-                if(res.status ==="fail"){
+                if(res.id ==="1"){
                     layui.use('layer', function(){
-                        var layer = layui.layer;
-                        layer.alert("<h2 style='color:black'>" + res.data.errMsg + "</h2>",{title: "Tips"});
-                    });
-                }else if(res.status ==="success"){
-                    layui.use('layer', function () {
+                        $("#wait").html("上传成功！")
                         var layer = layui.layer;
                         layer.alert("<h2 style='color:black'>" + '上传成功！' + "</h2>", {title: "Tips"});
-                        setTimeout(function () {
-                            //刷新
-                            location.reload();
-                        }, 1000);
+                    });
+                }else{
+                    layui.use('layer', function () {
+                        var layer = layui.layer;
+                        layer.alert("<h2 style='color:black'>" + '上传失败！' + "</h2>", {title: "Tips"});
                     });
                 }
-                console.log(res)  //返回对象数据
             }
         })
     })
@@ -87,16 +175,11 @@
         });
         $.post("test.action",{msg:$("#content").val()},function(res){
             console.log(res)
-            $("#res").html(res.id+" : "+res.type+"!")
+            $("#res").html(res.type+" !")
         })
     }
 
-    function predictAll(){
 
-        $.post("/xunlian.action",function(res){
-
-        })
-    }
 
     $(function () {
         const btn = $("#copy");

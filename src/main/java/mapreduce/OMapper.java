@@ -15,6 +15,7 @@ public class OMapper extends Mapper<LongWritable, Text, IntWritable, Text> {
             Text value,
             org.apache.hadoop.mapreduce.Mapper<LongWritable, Text, IntWritable, Text>.Context context)
             throws IOException, InterruptedException {
+        OSubmit.num++;
         //key为每一行的起始偏移量
         //value为每一行的内容
         //每一行的内容分割，如hello   world，分割成一个String数组有两个数据，分别是hello，world
@@ -22,7 +23,8 @@ public class OMapper extends Mapper<LongWritable, Text, IntWritable, Text> {
         String line =value.toString();
 
         //String[] ss = value.toString().toString().split(" ");
-        String str=line.split("\t")[1];
+        String array[]=line.split("\t");
+        String str=array[1];
         String []arr=str.split(" ");
         double ans1=1;
         int cnt1=0,cnt2=0;
@@ -51,9 +53,21 @@ public class OMapper extends Mapper<LongWritable, Text, IntWritable, Text> {
         }
         if(ans1>=1||cnt1>cnt2) {
             context.write(new IntWritable(now),new Text("好评"));
+            if(array[0].compareTo("好评")==0){
+                OSubmit.cnt2++;
+            }else{
+                OSubmit.errorlist.add(now);
+            }
+            OSubmit.hnum++;
         }
         else {
             context.write(new IntWritable(now),new Text("差评"));
+            if(array[0].compareTo("差评")==0){
+                OSubmit.cnt2++;
+            }else{
+                OSubmit.errorlist.add(now);
+            }
+            OSubmit.cnum++;
         }
     }
 

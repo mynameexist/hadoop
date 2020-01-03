@@ -19,20 +19,21 @@ import java.util.HashMap;
 import java.util.List;
 
 public class OSubmit {
-    private List<data> test=null;
+    private datalist test=null;
 
-    public List<data> getTest() {
+    public datalist getTest() {
         return test;
     }
 
-    public void setTest(List<data> test) {
+    public void setTest(datalist test) {
         this.test = test;
     }
 
     public static HashMap<String,Integer> map=new HashMap<>();
     public static Integer cnt=0;
     public  static  double ans1=1,ans2=1;
-    public static  int cnt1=0,cnt2=0;
+    public static  int cnt1=0,cnt2=0,num=0,hnum=0,cnum=0;
+    public static  List<Integer> errorlist=null;
     public static void main(String[] args) throws IOException,
             URISyntaxException, InterruptedException, ClassNotFoundException {
         //init();
@@ -41,17 +42,26 @@ public class OSubmit {
         //readfile("/input_2017081098/test-1000.txt");
     }
     public String xunlian() throws InterruptedException, IOException, ClassNotFoundException {
+        errorlist=new ArrayList<>();
+        hnum=cnum=0;
         cnt2=0;
         cnt1=0;
+        num=0;
         map.clear();
         jisuan();
         List<String> list=OSubmit.readfile("/input_2017081099/testoutput/part-r-00000");
-        test=new ArrayList<>();
+        test=new datalist();
         for(String i : list){
             String arr[]=i.split("\t");
             if(arr.length!=2) continue;
-            test.add(new data(arr[0],arr[1]));
+            test.getList().add(new data(arr[0],arr[1]));
         }
+        System.out.println(cnt2+"  "+num);
+        test.getList().add(new data("正确率:",String.valueOf(cnt2*1.0/num)));
+        test.setErrorList(errorlist);
+        test.setCnum(cnum);
+        test.setHnum(hnum);
+        test.setNum(cnum+hnum);
         return "success";
     }
     public static  void jisuan() throws IOException, ClassNotFoundException, InterruptedException {
@@ -206,6 +216,7 @@ public class OSubmit {
         ArrayList<String> strArray = new ArrayList<String>();
         Configuration conf=new Configuration();
         conf.set("fs.default.name", "hdfs://119.3.167.84:9000");
+        conf.setBoolean("fs.hdfs.impl.disable.cache", true);
         System.setProperty("HADOOP_USER_NAME","root");
         FileSystem fs = FileSystem.get(conf);
         Path remotePath = new Path(remoteFilePath);

@@ -9,7 +9,9 @@
             <result>index.jsp</result>
         </action>
         <action name="upload" class="action.UpLoadAction" method="upload">
-            <result name="success">success.jsp</result>
+            <result name="success" type="json">
+            <param name="root">data</param>
+            </result>
         </action>
         <action name="xunlian" class="mapreduce.OSubmit" method="xunlian">
             <result name="success" type="json">

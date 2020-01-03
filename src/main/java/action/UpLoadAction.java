@@ -1,5 +1,6 @@
 package action;
 
+import mapreduce.data;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FSDataInputStream;
 import org.apache.hadoop.fs.FSDataOutputStream;
@@ -8,8 +9,18 @@ import org.apache.hadoop.fs.Path;
 import java.io.*;
 
 public class UpLoadAction {
+    private data data=null;
 
     private File file;
+
+    public void setData(mapreduce.data data) {
+        this.data = data;
+    }
+
+    public mapreduce.data getData() {
+        return data;
+    }
+
     private String fileFileName;
     private String fileContentType;
 
@@ -59,6 +70,8 @@ public class UpLoadAction {
         //read.close();
         in.close();
         fs.close();
+
+        data=new data("1","上传成功!");
         return "success";
     }
 }
