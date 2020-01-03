@@ -41,6 +41,7 @@ public class OSubmit {
         //readfile("/input_2017081098/test-1000.txt");
     }
     public String xunlian() throws InterruptedException, IOException, ClassNotFoundException {
+        cnt2=0;
         cnt1=0;
         map.clear();
         jisuan();
