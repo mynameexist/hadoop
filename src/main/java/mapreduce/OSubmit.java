@@ -205,6 +205,7 @@ public class OSubmit {
         ArrayList<String> strArray = new ArrayList<String>();
         Configuration conf=new Configuration();
         conf.set("fs.default.name", "hdfs://119.3.167.84:9000");
+        System.setProperty("HADOOP_USER_NAME","root");
         FileSystem fs = FileSystem.get(conf);
         Path remotePath = new Path(remoteFilePath);
         FSDataInputStream in = fs.open(remotePath);

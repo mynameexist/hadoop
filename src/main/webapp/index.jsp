@@ -1,9 +1,17 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HDFS</title>
+    <script src="js/jquery-3.3.1.min%20(1).js"></script>
+    <script type="text/javascript" src="js/layui.js"></script>
+    <link rel="stylesheet" href="js/layui.css" type="text/css"/>
+</head>
 <body>
-<h2>Hello World!</h2>
-<form enctype="multipart/form-data" method="post" action="upload">
-    <input type="file" name="file">
+<form action="upload" method="post" enctype="multipart/form-data">
+<input type="file" name="file">
     <input type="submit">
 </form>
 </body>
+
 </html>

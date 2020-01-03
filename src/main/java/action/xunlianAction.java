@@ -100,6 +100,7 @@ public class xunlianAction {
     }
     private static void solve() throws InterruptedException, IOException, ClassNotFoundException {
         Job job = Job.getInstance(new Configuration());
+        System.setProperty("HADOOP_USER_NAME","root");
         job.setJarByClass(xunlianAction.class);
         job.setMapperClass(OMapper.class);
         job.setReducerClass(OReducer.class);
