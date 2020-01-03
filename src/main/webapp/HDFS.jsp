@@ -21,6 +21,16 @@
         <div class="layui-upload" style="margin-left: 20px">
             <button type="button" class="layui-btn" id="upload">上传文件</button>
         </div>
+        <form class="layui-form" action="" style="margin-top: 30px;" name="form" >
+            <div class="layui-form-item" >
+                <div class="layui-input-block layui-input-inline" style="margin-left: 20px;">
+                    <input type="text" placeholder="请输入需预测的内容" id="content" class="layui-input" style="width: 500px;">
+                </div>
+                <div class="layui-input-block layui-input-inline" style="margin-left: 315px">
+                    <button type="button" class="layui-btn layui-btn-normal" id="prerdit2" onclick="single()">开始预测</button>
+                </div>
+            </div>
+        </form>
         <fieldset class="layui-elem-field layui-field-title site-demo-button" style="margin-top: 30px;">
             <legend >预测结果</legend>
         </fieldset>
@@ -30,19 +40,20 @@
                 <p id="crate">好评正确率：</p><br>
                 <p id="wrate">差评正确率：</p><br>
                 <textarea placeholder="请输入内容" class="layui-textarea"  id="res" readonly></textarea>
-                <a  class="layui-btn layui-btn-normal" id="copy" style="float: right;margin-top: 5px;">复制</a>
+                <a class="layui-btn layui-btn-normal" id="copy" style="float: right;margin-top: 5px;">复制</a>
             </div>
         </div>
     </div>
 </div>
 <script type="text/javascript">
+    $("#res").html(" ")
     layui.use('upload', function(){
         var $ = layui.jquery
-            ,upload = layui.upload;
+        ,upload = layui.upload;
 
         upload.render({
             elem: '#upload'
-            ,url: '/upload'
+            ,url: 'upload.action'
             ,accept: 'file'
             ,async:true
             ,method:"post"
@@ -68,21 +79,37 @@
         })
     })
 
-/*    $("#copy").on("tap",function(){
-        $("#res").select();
-        try{
-            if(document.execCommand("Copy",false,null)){
-                //如果复制成功
-                alert("复制成功！");
-            }else{
-                //如果复制失败
-                alert("复制失败！");
+    function single() {
+        $("#res").html("请稍后...")
+        layui.use('layer', function () {
+            var layer = layui.layer;
+            layer.alert("<h2 style='color:black'>" + '请稍后...' + "</h2>", {title: "Tips"});
+        });
+        $.post("test.action",{msg:$("#content").val()},function(res){
+            console.log(res)
+            $("#res").html(res.id+" : "+res.type+"!")
+        })
+    }
+
+    function predictAll(){
+
+        $.post("/xunlian.action",function(res){
+
+        })
+    }
+
+    $(function () {
+        const btn = $("#copy");
+        btn.click( () => {
+            const input = $("#res");
+            input.select();
+            if (document.execCommand('copy')) {
+                document.execCommand('copy');
+                alert('复制成功');
             }
-        }catch(err){
-            //如果报错
-            alert("复制错误！")
-        }
-    })*/
+        })
+    })
+
 
 </script>
 </body>
