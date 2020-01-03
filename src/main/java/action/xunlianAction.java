@@ -47,7 +47,7 @@ public class xunlianAction {
     }
 
     public String test() throws InterruptedException, IOException, ClassNotFoundException, JSONException {
-        System.out.println("msg="+msg);
+        //System.out.println("msg="+msg);
         Connection connect = Jsoup.connect("https://jsonin.com/fenci.php").ignoreContentType(true);
         // 带参数开始
         connect.data("msg", msg);
