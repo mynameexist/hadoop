@@ -56,7 +56,7 @@ public class OMapper extends Mapper<LongWritable, Text, IntWritable, Text> {
             if(array[0].compareTo("好评")==0){
                 OSubmit.cnt2++;
             }else{
-                OSubmit.errorlist.add(now);
+                OSubmit.errorlist.add(now+" "+line);
             }
             OSubmit.hnum++;
         }
@@ -65,7 +65,7 @@ public class OMapper extends Mapper<LongWritable, Text, IntWritable, Text> {
             if(array[0].compareTo("差评")==0){
                 OSubmit.cnt2++;
             }else{
-                OSubmit.errorlist.add(now);
+                OSubmit.errorlist.add(now+" "+line);
             }
             OSubmit.cnum++;
         }

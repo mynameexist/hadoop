@@ -33,7 +33,7 @@ public class OSubmit {
     public static Integer cnt=0;
     public  static  double ans1=1,ans2=1;
     public static  int cnt1=0,cnt2=0,num=0,hnum=0,cnum=0;
-    public static  List<Integer> errorlist=null;
+    public static  List<String> errorlist=null;
     public static void main(String[] args) throws IOException,
             URISyntaxException, InterruptedException, ClassNotFoundException {
         //init();

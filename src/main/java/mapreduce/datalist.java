@@ -5,7 +5,7 @@ import java.util.List;
 
 public class datalist {
     List<data> List=new ArrayList<>();
-    List<Integer> errorList=new ArrayList<>();
+    List<String> errorList=new ArrayList<>();
     Integer hnum,cnum,num;
     String p;
 
@@ -45,11 +45,11 @@ public class datalist {
         List = list;
     }
 
-    public java.util.List<Integer> getErrorList() {
+    public java.util.List<String> getErrorList() {
         return errorList;
     }
 
-    public void setErrorList(java.util.List<Integer> errorList) {
+    public void setErrorList(java.util.List<String> errorList) {
         this.errorList = errorList;
     }
 
