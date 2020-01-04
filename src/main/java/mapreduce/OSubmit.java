@@ -54,7 +54,9 @@ public class OSubmit {
         for(String i : list){
             String arr[]=i.split("\t");
             if(arr.length!=2) continue;
-            test.getList().add(new data(arr[0],arr[1]));
+            String right="好评";
+            if(Integer.valueOf(arr[0])>1000) right="差评";
+            test.getList().add(new data(arr[0],arr[1],right));
         }
         System.out.println(cnt2+"  "+num);
         test.getList().add(new data("正确率:",String.valueOf(cnt2*1.0/num)));
