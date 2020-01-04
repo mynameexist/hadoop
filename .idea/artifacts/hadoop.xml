@@ -1,9 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="war" build-on-make="true" name="hadoop">
-    <output-path>$PROJECT_DIR$/out/artifacts/hadoop</output-path>
-    <root id="archive" name="hadoopshy_war.war">
-      <element id="artifact" artifact-name="hadoopshy:war exploded" />
-      <element id="dir-copy" path="$PROJECT_DIR$/src/main/webapp" />
-    </root>
-  </artifact>
-</component>

@@ -53,15 +53,16 @@ public class UpLoadAction {
         conf.set("fs.defaultFS","hdfs://119.3.167.84:9000/");
         System.setProperty("HADOOP_USER_NAME","root");
         FileSystem fs=FileSystem.get(conf);
-        FSDataOutputStream out=fs.create(new Path("/input_2017081099/"+this.fileFileName));
+        FSDataOutputStream out=fs.create(new Path("/input_2017081098/"+this.fileFileName));
         FileInputStream in =new FileInputStream(file);
         long filelengtgh=this.file.length();
         byte[] filecontent=new byte[(int) filelengtgh];
         //FileOutputStream out =new FileOutputStream(new File("C:/Users/14708/Desktop/javaEE/"+this.fileFileName));
-        /*BufferedReader read=new BufferedReader(new InputStreamReader(in,"UTF-8"));*/
+        /*BufferedReader read=new BufferedReader(new InputStreamReader(in,"UTF-8"));
+        String line;*/
         in.read(filecontent);
         out.write(filecontent);
-       /* while ((line=read.readLine())!=null){
+     /*  while ((line=read.readLine())!=null){
             System.out.print(line);
             out.write(line.getBytes("UTF-8"));
             out.writeBytes("\n");
