@@ -7,6 +7,15 @@ public class datalist {
     List<data> List=new ArrayList<>();
     List<Integer> errorList=new ArrayList<>();
     Integer hnum,cnum,num;
+    String p;
+
+    public void setP(String p) {
+        this.p = p;
+    }
+
+    public String getP() {
+        return p;
+    }
 
     public Integer getHnum() {
         return hnum;

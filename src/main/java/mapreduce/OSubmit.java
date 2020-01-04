@@ -59,7 +59,7 @@ public class OSubmit {
             test.getList().add(new data(arr[0],arr[1],right));
         }
         System.out.println(cnt2+"  "+num);
-        test.getList().add(new data("正确率:",String.valueOf(cnt2*1.0/num)));
+        test.setP(String.valueOf(cnt2*1.0/num));
         test.setErrorList(errorlist);
         test.setCnum(cnum);
         test.setHnum(hnum);
